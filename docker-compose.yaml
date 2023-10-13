@@ -1,0 +1,36 @@
+version: '3.8'
+services:
+    db:
+        image: mariadb:10.11.2
+        environment:
+            MYSQL_ROOT_PASSWORD: "${MYSQL_ROOT_PASSWORD}"
+            MYSQL_DATABASE: "${MYSQL_DATABASE}"
+            MYSQL_USER: "${MYSQL_USER}"
+            MYSQL_PASSWORD: "${MYSQL_PASSWORD}"
+        volumes:
+            - ratiometry-mariadb-volume:/data
+    adminer:
+        image: adminer:4.8.1
+        ports:
+            - 8083:8080
+    app:
+        #stdin_open: true
+        #tty: true
+        build: 
+            context: .
+            dockerfile: Dockerfile
+        ports:
+            - 8084:8000
+        volumes:
+            - "./src:/app"
+        depends_on:
+            - db
+        environment:
+            SANIC_MYSQL_DATABASE: "${MYSQL_DATABASE}"
+            SANIC_MYSQL_USER: "${MYSQL_USER}"
+            SANIC_MYSQL_PASSWORD: "${MYSQL_PASSWORD}"
+            SANIC_DATA_URL: "${DATA_URL}"
+volumes:
+    ratiometry-mariadb-volume:
+        labels:
+            - ratiometry.test=ratiometry-test

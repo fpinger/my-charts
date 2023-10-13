@@ -1,0 +1,10 @@
+.chart-menu-icon {
+    cursor: pointer;
+    stroke: #666;
+}
+.selected {
+    stroke: green;
+}
+.chart-data-load {
+
+}

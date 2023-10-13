@@ -1,0 +1,55 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="/css/time-interval-select.css">
+    <link rel="stylesheet" href="/css/i-chart.css">
+</head>
+<body>
+    <!-- Выбор временного периода -->
+    <div class="select-interval">
+        <div class="select-interval-field">
+            <label>Начало:</label>
+            <input id="interval-start" type="datetime-local" />
+        </div>
+        <div class="select-interval-field">
+            <label>Окончание:</label>
+            <input id="interval-end" type="datetime-local" /> 
+        </div>
+        <div class="select-interval-field">
+            <input type="button" id="select-interval-btn" value="Выбрать" />
+        </div>
+    </div>
+
+    <!-- Контейнер графика -->
+    <div id="chart-container" style="width:1440px;margin: 16px auto;"></div>
+    
+    <!-- Подключаем JS -->
+    <script src="/js/d3/d3.js"></script>
+    <script>
+        const DATA_URL = '{{ data_url }}'; // URL запроса данных
+        const IMEI = '1234567'; // imei устройства
+    </script>
+    <script src="/js/l-chart.js"></script>
+    <script>
+        // ---
+        let dataReposytory = new LChartDataRepository(DATA_URL, IMEI); // источник данных
+        let lChart; // Используем один график
+
+        // Создаем селектор временного периода для графика 
+        const timeIntervalSelect = new TimeIntervalSelect(function (timeInterval) {
+            // Здесь задаем код для создания/обновления одного или более графиков
+            if (!lChart) { // График не задан
+                lChart = new LChart("chart-container", dataReposytory);
+            }
+            lChart.setTimeInterval(
+                timeInterval,                  // Первоначальный временной интервал 
+                {name: 'value1', color: 'green'} // Имя переменной и цвет графика
+            );
+        });
+    </script>
+</body>
+</html>

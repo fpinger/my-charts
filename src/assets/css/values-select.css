@@ -1,0 +1,13 @@
+/* Выбор временного периода ---------------- */
+.select-values {
+    width: 1440px;
+    min-width: 360px;
+    margin: 4px auto 0;
+    padding: 2px;
+    background-color: #fff;
+    color: #000;
+}
+.select-interval-field {
+    margin: 2px 0;
+}
+  
